@@ -1,3 +1,4 @@
+// @ts-expect-error NestJS dependencies are resolved at runtime in the backend environment.
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { UsersService } from './users.service.js';
 

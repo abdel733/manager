@@ -37,9 +37,25 @@ docker compose up -d postgres
 cd backend
 cp .env.example .env
 npm install
-npx prisma db push
+npx prisma migrate deploy
+npm run db:seed
 npm run start:dev
 ```
+
+Les migrations versionnées dans `backend/prisma/migrations` recréent la structure
+de la base. Le seed ajoute les utilisateurs et tâches de démonstration. Pour
+reproduire des données métier réelles, il faut également restaurer une sauvegarde
+PostgreSQL : les migrations ne contiennent pas les enregistrements existants.
+
+Si une base locale existe déjà et a été créée avec `prisma db push`, sauvegardez-la
+et vérifiez que son schéma correspond à la migration avant de la baseliner :
+
+```bash
+npx prisma migrate resolve --applied 20260928000000_init
+```
+
+Cette commande enregistre la migration comme déjà appliquée, sans recréer les
+tables ni modifier les données existantes.
 
 Dans un autre terminal:
 
